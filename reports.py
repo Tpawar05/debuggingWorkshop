@@ -1,10 +1,7 @@
 def find_product_by_name(products, name):
-    if(isinstance(name, str)):
-        name = name.strip()
-    else:
-        return "Invalid Name"
+    name=name.lower().strip()
     for product in products:
-        if product["name"].lower() == name.lower():
+        if product["name"].lower().strip() == name:
             return product
     return None
 
