@@ -29,11 +29,17 @@ def validate_order(order, products, customers):
     if customer is None:
         errors.append("Customer does not exist")
 
-    if "items" not in order or len(order["items"]) == 0:
+    items = order.get("items")
+    if not isinstance(items, list) or len(items) == 0:
         errors.append("Order must contain at least one item")
+        items = []
 
     requested = {}
-    for item in order.get("items", []):
+    for item in items:
+        if not isinstance(item, dict):
+            errors.append(f"Invalid order item: {item!r}")
+            continue
+
         product = find_product_by_id(products, item.get("product_id"))
 
         if product is None:
