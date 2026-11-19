@@ -1,12 +1,16 @@
 def find_product_by_name(products, name):
+    if(isinstance(name, str)):
+        name = name.strip()
+    else:
+        return "Invalid Name"
     for product in products:
-        if product["name"].lower() == name:
+        if product["name"].lower() == name.lower():
             return product
     return None
 
 
 def low_stock_products(products, threshold=5):
-    return [p for p in products if p["stock"] < threshold and p["stock"] > 0]
+    return [p for p in products if p["stock"] < threshold]
 
 
 def products_sorted_by_price(products):
