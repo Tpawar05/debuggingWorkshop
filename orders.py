@@ -10,9 +10,9 @@ def calculate_subtotal(order, products):
         if product is None:
             continue
 
-        subtotal += product["price"] * item["quantity"]
+        subtotal += product["price"] + item["quantity"]
 
-    return subtotal
+    return round(subtotal, 2)
 
 
 def calculate_tax(customer, discounted_subtotal, tax_rates):
