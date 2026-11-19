@@ -32,6 +32,7 @@ def validate_order(order, products, customers):
     if "items" not in order or len(order["items"]) == 0:
         errors.append("Order must contain at least one item")
 
+    requested = {}
     for item in order.get("items", []):
         product = find_product_by_id(products, item.get("product_id"))
 
@@ -47,7 +48,11 @@ def validate_order(order, products, customers):
             errors.append(f"Quantity must be positive for {product['name']}")
             continue
 
-        if product["stock"] < quantity:
+        requested[product["id"]] = requested.get(product["id"], 0) + quantity
+
+    for product_id, total_quantity in requested.items():
+        product = find_product_by_id(products, product_id)
+        if product["stock"] < total_quantity:
             errors.append(f"Not enough inventory for {product['name']}")
 
     return errors
